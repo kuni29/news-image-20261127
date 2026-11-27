@@ -1,8 +1,8 @@
 # The World in One Picture — 27 November 2026
 
-[![make.fun](https://make.fun/badge/news-image-20261127.svg)](https://make.fun/bounty/news-image-20261127)
-[![make.fun rank](https://make.fun/badge/news-image-20261127/rank.svg)](https://make.fun/bounty/news-image-20261127)
-[![make.fun reward](https://make.fun/badge/news-image-20261127/reward.svg)](https://make.fun/bounty/news-image-20261127)
+[![make.fun · news-image-20261127](https://make.fun/badge/news-image-20261127.svg)](https://make.fun/bounty/news-image-20261127?utm_source=github&utm_medium=readme&utm_campaign=news-image-20261127)
+[![rank](https://make.fun/badge/news-image-20261127/kuni29/news-image-20261127/rank.svg)](https://make.fun/bounty/news-image-20261127/leaderboard?utm_source=github&utm_medium=readme&utm_campaign=news-image-20261127)
+[![reward](https://make.fun/badge/news-image-20261127/kuni29/news-image-20261127/reward.svg)](https://make.fun/bounty/news-image-20261127?utm_source=github&utm_medium=readme&utm_campaign=news-image-20261127)
 
 A one-page picture of Friday 27 November 2026: 36 stories from 7 regions,
 drawn as a broadsheet front page. Every featured story gets its own
