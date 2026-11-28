@@ -15,6 +15,13 @@ Top stories: mines hit tankers in the Strait of Hormuz; a drone strike
 kills two Italians in Kuwait; Pablo Hernández de Cos is chosen as the next
 ECB president.
 
+This is revision 2 of the entry (28 November): the masthead date is set
+in ~90px serif so the day is unmissable, and the "Also today" briefs are
+set at 11px with bold lead words and a source on every line, so they stay
+readable when the page is shrunk to 300px wide. The €45bn Ukraine loan
+figure is cross-checked: €45bn is the same proposal other outlets quote
+as $49.4bn.
+
 ## How it is built
 
 `design.html` is the whole page (1024×1024), rendered to `entry.png` with
