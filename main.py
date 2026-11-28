@@ -1,61 +1,48 @@
 #!/usr/bin/env python3
-"""news-image-20261127: emit the finished front page as entry.png.
+"""Entry point for this news-image submission.
 
-The picture itself is drawn once, by hand, in design.html and rendered to
-entry.png with headless Chrome (render.mjs). This program does no drawing:
-it only places that exact file where the grader expects it, byte for byte,
-every time it runs. Determinism is the whole job here, so the copy is done
-through a single read of the committed bytes and a single write to the
-output directory, with a hash printed so a repeated run can be compared.
+The picture itself is already in the repository as entry.png: it was
+rendered from design.html with headless Chrome while the entry was built.
+This program only carries those exact bytes to the place the grader
+reads them from, so running it twice yields a byte-identical file.
+Nothing here draws, downloads, or changes the image.
 """
 
 import hashlib
 import os
-import pathlib
+import shutil
 import sys
 
-SOURCE_NAME = "entry.png"
+
+def beside_this_file(name):
+    """Path of a file sitting next to this program in the repository."""
+    folder = os.path.dirname(os.path.abspath(__file__))
+    return os.path.join(folder, name)
 
 
-def repo_root() -> pathlib.Path:
-    return pathlib.Path(__file__).resolve().parent
-
-
-def output_dir() -> pathlib.Path:
-    chosen = os.environ.get("OUTPUT_DIR") or os.environ.get("MAKEFUN_OUTPUT")
-    if chosen:
-        return pathlib.Path(chosen)
-    return pathlib.Path("/output")
-
-
-def sha256_hex(data: bytes) -> str:
+def sha256_of(path):
+    """Hex digest of a file, read in 1 MiB chunks."""
     digest = hashlib.sha256()
-    digest.update(data)
+    with open(path, "rb") as handle:
+        while True:
+            chunk = handle.read(1 << 20)
+            if not chunk:
+                break
+            digest.update(chunk)
     return digest.hexdigest()
 
 
-def main() -> int:
-    source = repo_root() / SOURCE_NAME
-    if not source.is_file():
-        print(f"missing source image: {source}", file=sys.stderr)
+def main():
+    source = beside_this_file("entry.png")
+    destination = os.path.join("/output", "entry.png")
+    os.makedirs("/output", exist_ok=True)
+    shutil.copyfile(source, destination)
+    if sha256_of(source) != sha256_of(destination):
+        print("entry.png did not reproduce byte for byte", file=sys.stderr)
         return 1
-    payload = source.read_bytes()
-    if len(payload) == 0 or len(payload) > 1_048_576:
-        print(f"bad source size: {len(payload)} bytes", file=sys.stderr)
-        return 1
-    if payload[:8] != b"\x89PNG\r\n\x1a\n":
-        print("source is not a PNG file", file=sys.stderr)
-        return 1
-    target_dir = output_dir()
-    target_dir.mkdir(parents=True, exist_ok=True)
-    target = target_dir / SOURCE_NAME
-    with open(target, "wb") as handle:
-        handle.write(payload)
-    written = target.read_bytes()
-    if written != payload:
-        print("round-trip mismatch after writing entry.png", file=sys.stderr)
-        return 1
-    print(f"wrote {target} ({len(payload)} bytes, sha256 {sha256_hex(payload)})")
+    size = os.path.getsize(destination)
+    print("wrote %s (%d bytes, sha256 %s…)"
+          % (destination, size, sha256_of(destination)[:12]))
     return 0
 
 
